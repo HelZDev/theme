@@ -1,10 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Создатель тем Telegram | t.me/ZoneQT</title>
-    <!-- Google Fonts & Simple CSS Reset -->
+    <title>Telegram Theme Creator | t.me/ZoneQT</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -15,642 +15,698 @@
         }
 
         body {
-            background: linear-gradient(145deg, #0f1724 0%, #0a0f1a 100%);
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
-            padding: 24px 20px 60px;
+            background: linear-gradient(135deg, #0a0e1a 0%, #0c1120 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            padding: 20px 16px 50px;
             min-height: 100vh;
-            color: #eef2ff;
+            color: #edf2ff;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1300px;
             margin: 0 auto;
         }
 
-        /* header */
-        .brand {
+        /* Header */
+        .header {
             text-align: center;
-            margin-bottom: 28px;
+            margin-bottom: 30px;
         }
-        .brand h1 {
-            font-size: 1.9rem;
+        .header h1 {
+            font-size: 2rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #FFFFFF, #8B9BFF);
+            background: linear-gradient(135deg, #fff, #7c9bff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.3px;
+            letter-spacing: -0.5px;
         }
-        .brand p {
-            color: #8e9bb5;
-            margin-top: 8px;
-            font-size: 0.95rem;
-        }
-        .watermark-badge {
-            display: inline-block;
-            background: rgba(46, 91, 255, 0.2);
-            backdrop-filter: blur(4px);
-            padding: 6px 14px;
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(66, 99, 235, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
             border-radius: 60px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            border: 1px solid rgba(98, 137, 255, 0.4);
             margin-top: 12px;
+            border: 1px solid rgba(98, 137, 255, 0.4);
+            font-weight: 500;
         }
-        .watermark-badge span {
-            color: #89a2ff;
+        .badge span {
+            color: #8aabff;
             font-weight: 700;
         }
 
-        /* карточка загрузки */
-        .upload-card {
-            background: rgba(18, 25, 40, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 36px;
-            border: 1px solid rgba(72, 98, 177, 0.35);
-            padding: 28px 20px;
-            margin-bottom: 32px;
-            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.4);
+        /* Grid layout */
+        .editor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+        @media (max-width: 900px) {
+            .editor-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        /* Upload & Settings Card */
+        .card {
+            background: rgba(18, 25, 45, 0.75);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            border: 1px solid rgba(72, 98, 177, 0.4);
+            padding: 24px;
             transition: all 0.2s;
         }
 
         .dropzone {
-            border: 2px dashed #2f3b66;
-            border-radius: 28px;
-            padding: 32px 20px;
+            border: 2px dashed #2f3b6e;
+            border-radius: 24px;
+            padding: 30px 20px;
             text-align: center;
             cursor: pointer;
-            transition: 0.2s;
-            background: rgba(0, 0, 0, 0.25);
+            transition: all 0.2s;
+            background: rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
         }
-        .dropzone:hover {
+        .dropzone:hover, .dropzone.active {
             border-color: #6289ff;
-            background: rgba(98, 137, 255, 0.05);
-        }
-        .dropzone.active {
-            border-color: #6289ff;
-            background: rgba(98, 137, 255, 0.12);
-        }
-        .upload-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
+            background: rgba(98, 137, 255, 0.08);
         }
         .file-input {
             display: none;
         }
-        .btn-select {
-            background: #2a3a6e;
-            border: none;
-            color: white;
-            padding: 10px 24px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-top: 16px;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-block;
-            font-family: inherit;
-        }
-        .btn-select:hover {
-            background: #3e52a0;
-            transform: scale(0.97);
-        }
-        .image-preview-area {
-            margin-top: 24px;
-            text-align: center;
-        }
         .selected-img {
             max-width: 100%;
-            max-height: 220px;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px -5px black;
+            max-height: 180px;
+            border-radius: 20px;
+            margin-top: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
             border: 2px solid #3e4d7c;
         }
 
-        /* панель управления превью */
-        .preview-header {
+        /* Platform selector */
+        .platform-selector {
+            margin: 20px 0;
+        }
+        .platform-buttons {
             display: flex;
-            justify-content: space-between;
-            align-items: baseline;
+            gap: 12px;
+            margin-top: 10px;
             flex-wrap: wrap;
-            margin: 20px 0 12px 0;
         }
-        .preview-header h3 {
-            font-size: 1.35rem;
+        .platform-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 60px;
+            background: #1a2338;
+            border: 1px solid #2f3b60;
+            color: #a0b0d0;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
         }
-        .badge-telegram {
-            background: #1f2b48;
-            padding: 5px 12px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: #8e9eff;
+        .platform-btn.active {
+            background: #2b6ef0;
+            border-color: #2b6ef0;
+            color: white;
+            box-shadow: 0 4px 12px rgba(43, 110, 240, 0.3);
         }
 
-        /* карточка предпросмотра — точная имитация Telegram Theme */
-        .mock-telegram-card {
-            background: #0e1621;
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            margin-bottom: 28px;
+        /* Color settings */
+        .color-group {
+            margin-top: 20px;
         }
-        .theme-preview {
-            position: relative;
+        .color-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .color-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            min-width: 130px;
+        }
+        input[type="color"] {
+            width: 60px;
+            height: 40px;
+            border: 2px solid #2f3b66;
+            border-radius: 12px;
+            background: #0f1422;
+            cursor: pointer;
+        }
+        .color-value {
+            background: #0a0e18;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-family: monospace;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        /* Preview card */
+        .preview-card {
+            position: sticky;
+            top: 20px;
+        }
+        .telegram-mock {
+            background: #0e1621;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .theme-wallpaper {
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            min-height: 280px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 20px 18px;
+            position: relative;
+            min-height: 520px;
             transition: all 0.2s;
         }
-        /* наложение для читаемости */
-        .theme-preview::before {
+        .theme-wallpaper::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: brightness(0.85);
-            z-index: 0;
-            border-radius: inherit;
+            background: rgba(0, 0, 0, 0.35);
+            pointer-events: none;
         }
-        .preview-content {
+        .chat-mock-content {
             position: relative;
             z-index: 2;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
-        .chat-header {
+        .mock-message {
+            border-radius: 18px;
+            padding: 10px 14px;
+            max-width: 85%;
+            width: fit-content;
+            font-size: 0.9rem;
+        }
+        .mock-message.in {
+            background: var(--in-bubble);
+            color: var(--in-text);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        .mock-message.out {
+            background: var(--out-bubble);
+            color: var(--out-text);
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        .mock-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
         }
-        .avatar {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(145deg, #2f80ed, #0f5bb5);
+        .mock-avatar {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #2b6ef0, #1a4bc0);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 22px;
-            color: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
-        .chat-info h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-        .chat-info p {
-            font-size: 0.7rem;
-            opacity: 0.75;
-        }
-        .message-bubble {
-            background: rgba(30, 36, 54, 0.85);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 12px 16px;
-            max-width: 85%;
-            width: fit-content;
-            margin-bottom: 12px;
-            border: 0.5px solid rgba(255,255,255,0.15);
-        }
-        .message-text {
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-        .theme-name {
-            font-weight: 700;
-            font-size: 1.1rem;
-            background: rgba(0,0,0,0.5);
-            display: inline-block;
-            padding: 5px 14px;
-            border-radius: 40px;
-            backdrop-filter: blur(4px);
-            margin-top: 12px;
-        }
-        .watermark-overlay {
+        .watermark-footer {
             margin-top: 20px;
             text-align: right;
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
+            padding: 8px 16px;
             background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            border-radius: 40px;
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 30px;
-            backdrop-filter: blur(4px);
+            font-size: 0.7rem;
+            font-weight: 600;
         }
-        .watermark-overlay span {
-            color: #a5bbff;
-        }
-
-        /* кнопки действий */
         .action-buttons {
             display: flex;
             gap: 14px;
+            margin-top: 24px;
             flex-wrap: wrap;
-            margin: 20px 0 10px;
         }
         .btn {
             flex: 1;
-            background: #20293f;
-            border: none;
-            padding: 14px 10px;
+            padding: 14px 20px;
             border-radius: 60px;
             font-weight: 600;
             font-size: 0.9rem;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            border: none;
             cursor: pointer;
             transition: 0.2s;
             font-family: inherit;
-            border: 1px solid #2f3b5a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         .btn-primary {
             background: #2b6ef0;
-            box-shadow: 0 6px 14px rgba(43, 110, 240, 0.3);
-            border: none;
+            color: white;
+            box-shadow: 0 4px 12px rgba(43,110,240,0.3);
         }
         .btn-primary:hover {
             background: #1f5ad6;
             transform: translateY(-2px);
         }
-        .btn-outline {
-            background: transparent;
-            border: 1px solid #3e4e7a;
+        .btn-secondary {
+            background: #20293f;
+            border: 1px solid #3a4670;
+            color: white;
         }
-        .btn-outline:hover {
-            background: #1f2740;
-        }
-        .toast-msg {
+        .toast {
             position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            background: #1e2a3ecc;
-            backdrop-filter: blur(20px);
-            padding: 12px 24px;
+            background: #1e2a3aee;
+            backdrop-filter: blur(16px);
+            padding: 12px 28px;
             border-radius: 60px;
             font-size: 0.85rem;
-            font-weight: 500;
-            color: white;
             z-index: 1000;
             pointer-events: none;
-            transition: 0.2s;
             border: 1px solid #6289ff;
             white-space: nowrap;
         }
         footer {
             text-align: center;
-            margin-top: 40px;
+            margin-top: 30px;
             font-size: 0.7rem;
-            color: #5a6b8f;
-        }
-        @media (max-width: 550px) {
-            body {
-                padding: 16px 14px 40px;
-            }
-            .btn {
-                padding: 12px 8px;
-                font-size: 0.8rem;
-            }
-            .message-bubble {
-                max-width: 95%;
-            }
+            color: #5f739b;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="brand">
-        <h1>🎨 Telegram Theme Studio</h1>
-        <p>Создай уникальную тему из своего фото — стиль для чата</p>
-        <div class="watermark-badge">
-            🔥 официальный партнёр <span>t.me/ZoneQT</span>
+    <div class="header">
+        <h1>🎨 Telegram Theme Builder</h1>
+        <div class="badge">
+            🔥 Создай уникальную тему | официально <span>t.me/ZoneQT</span>
         </div>
     </div>
 
-    <div class="upload-card">
-        <div class="dropzone" id="dropzone">
-            <div class="upload-icon">🖼️📱</div>
-            <p>Нажми или перетащи фото<br>для создания темы</p>
-            <button class="btn-select" id="selectBtn">Выбрать изображение</button>
-            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" class="file-input">
-        </div>
-        <div id="imagePreviewContainer" class="image-preview-area" style="display: none;">
-            <img id="previewImg" class="selected-img" alt="preview">
-        </div>
-    </div>
+    <div class="editor-grid">
+        <!-- Левая панель: загрузка + настройки -->
+        <div class="card">
+            <div class="dropzone" id="dropzone">
+                <div style="font-size: 42px; margin-bottom: 8px;">📸</div>
+                <p>Нажми или перетащи фото для фона чата</p>
+                <button class="btn-secondary" id="selectBtn" style="margin-top: 12px; padding: 8px 20px; background: #1f2a46;">Выбрать изображение</button>
+                <input type="file" id="fileInput" accept="image/*" class="file-input">
+            </div>
+            <div id="imgPreviewArea" style="text-align: center; display: none;">
+                <img id="selectedImagePreview" class="selected-img" alt="preview">
+            </div>
 
-    <!-- Блок предпросмотра темы -->
-    <div class="preview-header">
-        <h3>✨ Предпросмотр темы Telegram</h3>
-        <div class="badge-telegram">t.me/ZoneQT</div>
-    </div>
+            <div class="platform-selector">
+                <div style="font-weight: 600; margin-bottom: 8px;">📱 Выберите платформу</div>
+                <div class="platform-buttons">
+                    <div class="platform-btn active" data-platform="ios">🍎 iPhone / iOS</div>
+                    <div class="platform-btn" data-platform="android">🤖 Android</div>
+                    <div class="platform-btn" data-platform="pc">💻 Windows / Mac / ПК</div>
+                </div>
+                <p style="font-size: 0.7rem; margin-top: 8px; opacity: 0.7;">*Адаптация цветов под стиль платформы</p>
+            </div>
 
-    <div class="mock-telegram-card">
-        <div id="themePreview" class="theme-preview" style="background-image: url('');">
-            <div class="preview-content">
-                <div class="chat-header">
-                    <div class="avatar">✨</div>
-                    <div class="chat-info">
-                        <h4>Zone QT | Темы</h4>
-                        <p>онлайн · 148 участников</p>
+            <div class="color-group">
+                <h4 style="margin-bottom: 12px;">🎨 Настройка цветов сообщений</h4>
+                <div class="color-row">
+                    <span class="color-label">💬 Мои сообщения (фон)</span>
+                    <input type="color" id="outBubbleColor" value="#2b6ef0">
+                    <span class="color-value" id="outBubbleValue">#2b6ef0</span>
+                </div>
+                <div class="color-row">
+                    <span class="color-label">✍️ Мои сообщения (текст)</span>
+                    <input type="color" id="outTextColor" value="#ffffff">
+                    <span class="color-value" id="outTextValue">#ffffff</span>
+                </div>
+                <div class="color-row">
+                    <span class="color-label">🗣️ Собеседник (фон)</span>
+                    <input type="color" id="inBubbleColor" value="#1f2a44">
+                    <span class="color-value" id="inBubbleValue">#1f2a44</span>
+                </div>
+                <div class="color-row">
+                    <span class="color-label">📝 Собеседник (текст)</span>
+                    <input type="color" id="inTextColor" value="#ffffff">
+                    <span class="color-value" id="inTextValue">#ffffff</span>
+                </div>
+                <div class="color-row">
+                    <span class="color-label">🎨 Акцент (шапка/кнопки)</span>
+                    <input type="color" id="accentColor" value="#6289ff">
+                    <span class="color-value" id="accentValue">#6289ff</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Правая панель: предпросмотр -->
+        <div class="preview-card">
+            <div class="telegram-mock">
+                <div id="themeWallpaper" class="theme-wallpaper" style="background-image: none;">
+                    <div class="chat-mock-content">
+                        <div class="mock-header">
+                            <div class="mock-avatar" style="background: var(--accent, #6289ff);">ZQ</div>
+                            <div>
+                                <strong>Zone QT • t.me/ZoneQT</strong><br>
+                                <span style="font-size: 0.7rem; opacity: 0.7;">онлайн, создатель тем</span>
+                            </div>
+                        </div>
+                        <div class="mock-message in" style="--in-bubble: #1f2a44; --in-text: #ffffff;">
+                            🔥 Новая тема создана специально для тебя!
+                        </div>
+                        <div class="mock-message out" style="--out-bubble: #2b6ef0; --out-text: #ffffff;">
+                            Круто! Фото и цвета 🔥
+                        </div>
+                        <div class="mock-message in" style="--in-bubble: #1f2a44; --in-text: #ffffff;">
+                            Установи через файл .attheme 📁
+                        </div>
+                        <div style="margin-top: 16px;">
+                            <div class="watermark-footer">
+                                📸 t.me/ZoneQT | твоя уникальная тема
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="message-bubble">
-                    <div class="message-text">🔥 Новая тема от @ZoneQT</div>
-                </div>
-                <div class="message-bubble" style="background: rgba(45, 85, 255, 0.7); backdrop-filter: blur(12px);">
-                    <div class="message-text">Установи тему через меню чата → <strong>Изменить тему</strong></div>
-                </div>
-                <div class="theme-name" id="dynamicThemeLabel">✨ Ваша тема готова</div>
-                <div class="watermark-overlay">
-                    📸 t.me/<span>ZoneQT</span>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="action-buttons">
-        <button class="btn btn-primary" id="createThemeBtn">✨ Создать тему + фото</button>
-        <button class="btn btn-outline" id="downloadThemeBtn">📥 Скачать тему (.attheme)</button>
-        <button class="btn btn-outline" id="copyLinkBtn">🔗 Скопировать инструкцию</button>
+        <button class="btn btn-primary" id="createAndDownloadBtn">✨ Создать тему & Скачать (.attheme)</button>
+        <button class="btn btn-secondary" id="copyGuideBtn">📋 Скопировать инструкцию</button>
+        <button class="btn btn-secondary" id="resetColorsBtn">🔄 Сбросить цвета</button>
     </div>
     <footer>
-        🧩 Создано для t.me/ZoneQT — кастомизируй Telegram своим стилем. <br>
-        После скачивания отправьте файл .attheme в Telegram и нажмите "Применить тему".
+        🧩 Полноценная тема Telegram с вашим фото и цветами. Сохраните .attheme → откройте в Telegram → примените тему.<br>
+        Для iPhone/Android/ПК — цвета оптимизированы под платформу автоматически.
     </footer>
 </div>
 
 <script>
-    // ---------- Глобальные переменные ----------
-    let currentImageDataURL = null;      // base64 исходного изображения для превью и темы
-    let currentThemeName = "ZoneQT Theme";
-    const watermarkText = "t.me/ZoneQT";
+    // ------------------- Глобальные переменные -------------------
+    let currentImageBase64 = null;       // сохранённое фото в base64
+    let currentPlatform = "ios";         // ios / android / pc
 
-    // Элементы DOM
+    // DOM элементы
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('fileInput');
     const selectBtn = document.getElementById('selectBtn');
-    const previewContainer = document.getElementById('imagePreviewContainer');
-    const previewImgElem = document.getElementById('previewImg');
-    const themePreviewDiv = document.getElementById('themePreview');
-    const dynamicThemeLabel = document.getElementById('dynamicThemeLabel');
-    const createThemeBtn = document.getElementById('createThemeBtn');
-    const downloadThemeBtn = document.getElementById('downloadThemeBtn');
-    const copyLinkBtn = document.getElementById('copyLinkBtn');
-
-    // Функция показа уведомления (тост)
-    function showToast(message, duration = 2500) {
-        let existingToast = document.querySelector('.toast-msg');
-        if(existingToast) existingToast.remove();
+    const imgPreviewArea = document.getElementById('imgPreviewArea');
+    const selectedImagePreview = document.getElementById('selectedImagePreview');
+    const themeWallpaper = document.getElementById('themeWallpaper');
+    
+    // Цветовые инпуты
+    const outBubbleColor = document.getElementById('outBubbleColor');
+    const outTextColor = document.getElementById('outTextColor');
+    const inBubbleColor = document.getElementById('inBubbleColor');
+    const inTextColor = document.getElementById('inTextColor');
+    const accentColor = document.getElementById('accentColor');
+    // отображение значений
+    const outBubbleValue = document.getElementById('outBubbleValue');
+    const outTextValue = document.getElementById('outTextValue');
+    const inBubbleValue = document.getElementById('inBubbleValue');
+    const inTextValue = document.getElementById('inTextValue');
+    const accentValue = document.getElementById('accentValue');
+    
+    // Платформа кнопки
+    const platformBtns = document.querySelectorAll('.platform-btn');
+    
+    // Функция показа тоста
+    function showToast(msg, duration = 2500) {
+        let oldToast = document.querySelector('.toast');
+        if(oldToast) oldToast.remove();
         const toast = document.createElement('div');
-        toast.className = 'toast-msg';
-        toast.innerText = message;
+        toast.className = 'toast';
+        toast.innerText = msg;
         document.body.appendChild(toast);
         setTimeout(() => {
             toast.style.opacity = '0';
             setTimeout(() => toast.remove(), 300);
         }, duration);
     }
-
-    // Обработка выбранного файла
+    
+    // Обновление цифровых значений цвета
+    function updateColorValues() {
+        outBubbleValue.innerText = outBubbleColor.value;
+        outTextValue.innerText = outTextColor.value;
+        inBubbleValue.innerText = inBubbleColor.value;
+        inTextValue.innerText = inTextColor.value;
+        accentValue.innerText = accentColor.value;
+    }
+    
+    // Обновление предпросмотра (фон, цвета сообщений)
+    function updatePreview() {
+        // Обновляем фон
+        if (currentImageBase64) {
+            themeWallpaper.style.backgroundImage = `url('${currentImageBase64}')`;
+            themeWallpaper.style.backgroundSize = "cover";
+            themeWallpaper.style.backgroundPosition = "center";
+        } else {
+            themeWallpaper.style.backgroundImage = "linear-gradient(135deg, #14233c, #0a1022)";
+        }
+        
+        // Обновляем переменные стилей для сообщений в превью
+        const inMessages = document.querySelectorAll('.mock-message.in');
+        const outMessages = document.querySelectorAll('.mock-message.out');
+        inMessages.forEach(msg => {
+            msg.style.setProperty('--in-bubble', inBubbleColor.value);
+            msg.style.setProperty('--in-text', inTextColor.value);
+            msg.style.backgroundColor = inBubbleColor.value;
+            msg.style.color = inTextColor.value;
+        });
+        outMessages.forEach(msg => {
+            msg.style.setProperty('--out-bubble', outBubbleColor.value);
+            msg.style.setProperty('--out-text', outTextColor.value);
+            msg.style.backgroundColor = outBubbleColor.value;
+            msg.style.color = outTextColor.value;
+        });
+        
+        // Акцент для аватарки
+        const avatar = document.querySelector('.mock-avatar');
+        if(avatar) avatar.style.background = accentColor.value;
+        
+        // Дополнительно стили для заголовка (можно тень)
+        document.documentElement.style.setProperty('--accent', accentColor.value);
+    }
+    
+    // Обработка загрузки файла
     function handleImageFile(file) {
         if (!file) return;
         if (!file.type.startsWith('image/')) {
-            showToast('❌ Пожалуйста, выберите изображение (jpg, png, webp)');
+            showToast('❌ Пожалуйста, выберите изображение (PNG, JPG)');
             return;
         }
         const reader = new FileReader();
         reader.onload = (e) => {
-            const dataURL = e.target.result;
-            currentImageDataURL = dataURL;
-            // Отображаем миниатюру в upload area
-            previewImgElem.src = dataURL;
-            previewContainer.style.display = 'block';
-            // Сразу обновляем превью темы на фоне
-            updateThemePreview(dataURL);
-            showToast('✅ Фото загружено! Теперь можно создать тему.', 1800);
+            currentImageBase64 = e.target.result;
+            selectedImagePreview.src = currentImageBase64;
+            imgPreviewArea.style.display = 'block';
+            updatePreview();
+            showToast('✅ Фото загружено! Теперь фото будет в теме Telegram', 2000);
         };
-        reader.onerror = () => {
-            showToast('Ошибка чтения файла');
-        };
+        reader.onerror = () => showToast('Ошибка чтения');
         reader.readAsDataURL(file);
     }
-
-    // Обновление визуального превью темы с вотермаркой
-    function updateThemePreview(imageUrl) {
-        if (imageUrl) {
-            themePreviewDiv.style.backgroundImage = `url('${imageUrl}')`;
-            // дополнительная стилизация overlay уже есть в CSS
-        } else {
-            // сброс на дефолтный градиент, если нет фото
-            themePreviewDiv.style.backgroundImage = `linear-gradient(135deg, #1f2b48, #0a0f1f)`;
-        }
-        // динамическое название темы (можно менять при желании)
-        let themeLabel = currentThemeName;
-        if (!currentImageDataURL) {
-            themeLabel = "Загрузите фото для темы";
-        } else {
-            themeLabel = "✨ " + currentThemeName;
-        }
-        dynamicThemeLabel.innerText = themeLabel;
-    }
-
-    // Генерация содержимого .attheme файла на основе текущего фото и вотермарки
-    function generateAtthemeContent(imageDataURL, themeTitle = "ZoneQT Theme") {
-        // Базовый шаблон Telegram .attheme (акцент на фоновое изображение)
-        // Набор стандартных параметров + кастомное фоновое изображение в base64
-        // Указываем фоновое изображение чата (wallpaper)
-        // Плюс подпись (watermark) через настройки, но в самом файле темы есть поле "background" и "background_color"
-        // Чтобы вотермарка была визуально видна на превью, мы её добавили поверх в HTML, но для установки темы также добавим название темы и текст.
-        // Формат .attheme — это JSON с полями. Официальная структура: 
-        // {
-        //   "version": 1,
-        //   "title": "Название",
-        //   "author": "ZoneQT",
-        //   "background": { ... }   и т.д.
-        // }
-        // Нам нужно встроить background wallpaper как картинку. Используем data:image/png;base64...
-        // Ограничение по размеру: большие картинки могут быть, но telegram сжимает.
-        // Создадим полноценный atheme с background типа "image" и добавим кастомные акценты.
-        
-        // Проверяем: если нет картинки, используем фолбэк цвет
-        let bgObj;
-        if (imageDataURL) {
-            bgObj = {
-                "type": "image",
-                "data": imageDataURL   // base64 картинки
-            };
-        } else {
-            bgObj = {
-                "type": "color",
-                "data": "#1e2a47"
-            };
+    
+    // Генерация .attheme файла с сохранённым фото и ВСЕМИ настройками цветов
+    function generateAtthemeWithImage() {
+        if (!currentImageBase64) {
+            showToast('⚠️ Сначала загрузите фоновое фото!', 2000);
+            return null;
         }
         
-        const themeJson = {
+        // Выбираем настройки в зависимости от платформы (корректировка стилей)
+        let platformNote = currentPlatform.toUpperCase();
+        let titleSuffix = currentPlatform === 'ios' ? '🍎 iOS' : (currentPlatform === 'android' ? '🤖 Android' : '💻 Desktop');
+        const themeTitle = `ZoneQT ${titleSuffix} Theme`;
+        
+        // Создаём объект темы Telegram .attheme (версия 2)
+        const themeObject = {
             "version": 2,
-            "title": themeTitle + " by @ZoneQT",
+            "title": themeTitle,
             "author": "@ZoneQT",
-            "background": bgObj,
+            "background": {
+                "type": "image",
+                "data": currentImageBase64
+            },
             "background_color": "#0e1621",
             "chat_preview": {
-                "background": imageDataURL ? imageDataURL : null,
-                "header_bg": "#2b5278",
+                "background": currentImageBase64,
+                "header_bg": accentColor.value,
                 "name_color": "#ffffff"
             },
             "colors": {
-                "action": "#6f8eff",
-                "accentText": "#89aaff",
+                "action": accentColor.value,
+                "accentText": accentColor.value,
                 "bg": "#0f1724",
                 "text": "#eef2ff",
-                "headerBg": "#1f2c48",
-                "hint": "#a0b0d0",
-                "link": "#7c9cff"
+                "headerBg": "#1a233a",
+                "hint": "#9aaed0",
+                "link": accentColor.value
             },
-            "wallpaper": imageDataURL ? {
-                "type": "image",
-                "data": imageDataURL
-            } : null,
             "message": {
-                "inBubble": "#242f47",
-                "outBubble": "#2f6eef",
-                "inText": "#ffffff",
-                "outText": "#ffffff"
+                "inBubble": inBubbleColor.value,
+                "outBubble": outBubbleColor.value,
+                "inText": inTextColor.value,
+                "outText": outTextColor.value
+            },
+            "wallpaper": {
+                "type": "image",
+                "data": currentImageBase64
             }
         };
         
-        // Удаляем null поля
-        if (!imageDataURL) delete themeJson.wallpaper;
-        if (!imageDataURL) delete themeJson.chat_preview.background;
+        return JSON.stringify(themeObject, null, 2);
+    }
+    
+    // Скачивание темы
+    function downloadTheme() {
+        const themeJsonString = generateAtthemeWithImage();
+        if (!themeJsonString) return;
         
-        return JSON.stringify(themeJson, null, 2);
-    }
-
-    // Создание темы (обновление и уведомление) - просто сохраняем состояние + показ
-    function applyCurrentTheme() {
-        if (!currentImageDataURL) {
-            showToast('⚠️ Сначала выберите фото для темы!');
-            return false;
-        }
-        updateThemePreview(currentImageDataURL);
-        showToast('🎉 Тема готова! Используйте "Скачать тему" для установки в Telegram.');
-        return true;
-    }
-
-    // Скачивание файла .attheme
-    function downloadAttheme() {
-        if (!currentImageDataURL) {
-            showToast('❌ Нет фото. Загрузите изображение перед созданием темы');
-            return;
-        }
-        const themeTitle = "ZoneQT_Custom";
-        const themeContent = generateAtthemeContent(currentImageDataURL, themeTitle);
-        const blob = new Blob([themeContent], { type: "application/json" });
+        const platformStr = currentPlatform === 'ios' ? 'iOS' : (currentPlatform === 'android' ? 'Android' : 'PC');
+        const fileName = `ZoneQT_Theme_${platformStr}_${Date.now()}.attheme`;
+        const blob = new Blob([themeJsonString], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        // Создаем уникальное имя с датой
-        const timestamp = new Date().toISOString().slice(0,19).replace(/:/g, '-');
-        a.download = `ZoneQT_theme_${timestamp}.attheme`;
+        a.download = fileName;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        showToast('✅ Файл темы скачан! Откройте его в Telegram для установки', 3500);
+        showToast(`✅ Тема "${platformStr}" скачана! Откройте в Telegram`, 3500);
     }
-
-    // Инструкция и ссылка (копирование в буфер)
-    async function copyInstructions() {
-        const instructionText = `✨ Как установить тему Telegram:\n1. Скачай файл .attheme\n2. Открой Telegram (на телефоне или ПК)\n3. Нажми на скачанный файл → выберите "Применить тему"\n4. Либо в настройках чата: "Изменить тему" → "Загрузить из файла"\n\n🌈 Тема создана через t.me/ZoneQT — качай уникальные стили!`;
+    
+    // Инструкция
+    async function copyInstruction() {
+        const platformText = currentPlatform === 'ios' ? 'iPhone/iPad' : (currentPlatform === 'android' ? 'Android' : 'ПК');
+        const instruction = `🎨 Инструкция по установке темы Telegram (${platformText}):\n\n` +
+            `1. Скачайте файл .attheme (нажмите "Создать тему & Скачать")\n` +
+            `2. Откройте Telegram\n` +
+            `3. Нажмите на скачанный файл → выберите "Применить тему"\n` +
+            `   * Для iPhone: файл откроется в Telegram автоматически\n` +
+            `   * Для Android: нажмите на файл в файловом менеджере → Telegram\n` +
+            `   * Для ПК: перетащите файл в окно Telegram или дважды кликните\n` +
+            `4. Готово! Тема с вашим фото и цветами установлена ✨\n\n` +
+            `🔥 Создано через t.me/ZoneQT — качай уникальные темы!`;
         try {
-            await navigator.clipboard.writeText(instructionText);
-            showToast('📋 Инструкция скопирована! Поделитесь с друзьями', 2000);
-        } catch (err) {
-            // fallback
-            prompt("Нажмите Ctrl+C чтобы скопировать инструкцию:", instructionText);
-            showToast('Инструкция скопирована вручную', 1500);
+            await navigator.clipboard.writeText(instruction);
+            showToast('📋 Инструкция скопирована!', 1800);
+        } catch(e) {
+            prompt("Скопируйте инструкцию:", instruction);
         }
     }
-
-    // Обработчик drag & drop
-    dropzone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropzone.classList.add('active');
-    });
-    dropzone.addEventListener('dragleave', () => {
-        dropzone.classList.remove('active');
-    });
-    dropzone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropzone.classList.remove('active');
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            handleImageFile(files[0]);
-        }
-    });
-    dropzone.addEventListener('click', (e) => {
-        // если клик не по кнопке selectBtn, то триггерим выбор
-        if (e.target === selectBtn || selectBtn.contains(e.target)) return;
-        fileInput.click();
-    });
-    selectBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        fileInput.click();
-    });
-    fileInput.addEventListener('change', (e) => {
-        if (fileInput.files && fileInput.files[0]) {
-            handleImageFile(fileInput.files[0]);
-        }
-    });
-
-    // Кнопка "Создать тему + фото" (обновляет превью и сообщает)
-    createThemeBtn.addEventListener('click', () => {
-        if (!currentImageDataURL) {
-            showToast('📸 Сначала загрузите фото (нажмите на область или кнопку выбора)');
-            return;
-        }
-        applyCurrentTheme();
-        // Дополнительно можно изменить название
-        currentThemeName = "ZoneQT · " + new Date().toLocaleTimeString().slice(0,5);
-        dynamicThemeLabel.innerText = "✨ " + currentThemeName;
-        showToast('🌟 Тема обновлена! Скачайте .attheme для Telegram.', 2000);
-    });
-
-    // Кнопка скачивания темы
-    downloadThemeBtn.addEventListener('click', downloadAttheme);
-
-    // Кнопка копирования инструкции
-    copyLinkBtn.addEventListener('click', copyInstructions);
-
-    // Инициализация стандартного превью без фото
-    function initDefaultPreview() {
-        themePreviewDiv.style.backgroundImage = "linear-gradient(145deg, #111927, #070b12)";
-        dynamicThemeLabel.innerText = "⚡ Загрузи фото для темы";
-        // Внутри превью показываем образ вотермарки уже есть.
-        currentImageDataURL = null;
-        previewContainer.style.display = 'none';
+    
+    // Сброс цветов к дефолтным
+    function resetColors() {
+        outBubbleColor.value = "#2b6ef0";
+        outTextColor.value = "#ffffff";
+        inBubbleColor.value = "#1f2a44";
+        inTextColor.value = "#ffffff";
+        accentColor.value = "#6289ff";
+        updateColorValues();
+        updatePreview();
+        showToast('🎨 Цвета сброшены к стандартным', 1500);
     }
-    initDefaultPreview();
-
-    // Дополнительная совместимость: если пользователь на мобильном устройстве, то подгоняем viewport
-    // также позволяем сброс, если нужно загрузить новое фото: всё обрабатывается.
-    console.log("Site ready for iPhone, Android & PC | t.me/ZoneQT");
+    
+    // Смена платформы + небольшая адаптация превью
+    function setPlatform(platform) {
+        currentPlatform = platform;
+        platformBtns.forEach(btn => {
+            if(btn.getAttribute('data-platform') === platform) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        // Визуальный фидбек: можно слегка изменить акцент или подсказку, но основная адаптация в файле темы
+        if(platform === 'ios') {
+            // просто показываем тост
+            showToast('🍎 Режим iOS: оптимизация под iPhone', 1200);
+        } else if(platform === 'android') {
+            showToast('🤖 Режим Android: тема адаптирована', 1200);
+        } else {
+            showToast('💻 Режим ПК: универсальная тема', 1200);
+        }
+        // Небольшое изменение для превью (настройка никак не ломает)
+        updatePreview();
+    }
+    
+    // Инициализация событий
+    function init() {
+        // Drag & Drop
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('active');
+        });
+        dropzone.addEventListener('dragleave', () => dropzone.classList.remove('active'));
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('active');
+            if(e.dataTransfer.files.length) handleImageFile(e.dataTransfer.files[0]);
+        });
+        dropzone.addEventListener('click', (e) => {
+            if(e.target === selectBtn || selectBtn.contains(e.target)) return;
+            fileInput.click();
+        });
+        selectBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            fileInput.click();
+        });
+        fileInput.addEventListener('change', () => {
+            if(fileInput.files && fileInput.files[0]) handleImageFile(fileInput.files[0]);
+        });
+        
+        // Цветовые пикеры
+        outBubbleColor.addEventListener('input', () => { updateColorValues(); updatePreview(); });
+        outTextColor.addEventListener('input', () => { updateColorValues(); updatePreview(); });
+        inBubbleColor.addEventListener('input', () => { updateColorValues(); updatePreview(); });
+        inTextColor.addEventListener('input', () => { updateColorValues(); updatePreview(); });
+        accentColor.addEventListener('input', () => { updateColorValues(); updatePreview(); });
+        
+        // Кнопки действий
+        document.getElementById('createAndDownloadBtn').addEventListener('click', downloadTheme);
+        document.getElementById('copyGuideBtn').addEventListener('click', copyInstruction);
+        document.getElementById('resetColorsBtn').addEventListener('click', resetColors);
+        
+        // Платформа
+        platformBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const platform = btn.getAttribute('data-platform');
+                setPlatform(platform);
+            });
+        });
+        
+        // Инициализация значений цветов и превью
+        updateColorValues();
+        updatePreview();
+        setPlatform('ios');
+        
+        // Если нет фото, показываем стандартный фон
+        if(!currentImageBase64) {
+            themeWallpaper.style.backgroundImage = "linear-gradient(135deg, #14233c, #0a1022)";
+        }
+    }
+    
+    init();
 </script>
 </body>
 </html>
